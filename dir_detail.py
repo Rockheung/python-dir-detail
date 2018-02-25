@@ -1,7 +1,5 @@
 from __future__ import print_function
 import os
-ttyR, ttyC =map( int, os.popen( 'stty size', 'r').read().split() )
-
 
 def d( dictStyle =eval( 'globals()'), kwd ='', exc =[ '__doc__'] ):
 
@@ -22,30 +20,52 @@ def d( dictStyle =eval( 'globals()'), kwd ='', exc =[ '__doc__'] ):
 
 
 
-def ddir( obj =None, kwd ='', exc =[ '__doc__'] ):
-  objDefault ='__main__' not in dir() and obj is None
+def ddir( obj =object, kwd ='', exc =[ '__doc__'] ):
+  isobjDefault ='__main__' not in dir() and obj is object
 
-  if objDefault :
+  if isobjDefault :
     import __main__
     obj =__main__
 
-  mList =dir( obj)
-  maxLen =max( map( len, mList ) )
-  for mI in mList:
-    try:
-      mExplain =eval( obj.__name__ +'.' +mI )
-      if type( mExplain) is dict:
-        print( mI)
-        d(mExplain)
-      else :
-        print( '{:^{w}}| {}'.format( mI, mExplain, w =maxLen ) )
+  print( repr( obj) )
+
+  try :
+    isClass =issubclass( obj, object)
+  except TypeError :
+    isClass =False
+
+  moduleList =dir( obj)
+  maxLen =max( map( len, moduleList ) )
+
+  try :
+    moduleName =obj.__name__
+
+  except AttributeError:
+    try :
+      moduleName =repr( obj).split("'")[1]
+
+    except IndexError:
+      print( 'Failed to get module name. Check it out.')
+      return
+
+  isDunbar =obj.__name__ is not repr( obj).split("'")[1]
+  moduleName =obj.__name__ if not isDunbar and not isClass else repr( obj).split("'")[1]
+
+  for mI in moduleList:
+    try :
+      mExplain =repr( eval( moduleName +'.' +mI ) )
 
     except AttributeError:
       print( '{:^{w}}'.format( mI, w =maxLen ) )
+      break
 
-    except NameError:
-      print( '{}'.format( mI) )
+    if type( mExplain) is dict:
+      print( mI)
+      d(mExplain)
 
-  if objDefault :
+    else :
+      print( '{:^{w}}| {}'.format( mI, mExplain, w =maxLen ) )
+
+  if isobjDefault :
     del __main__
 
