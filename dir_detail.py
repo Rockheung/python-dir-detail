@@ -22,7 +22,7 @@ def d( dictStyle =eval( 'globals()'), kwd ='', exc =[ '__doc__'] ):
 
 
 
-def dd( obj =None, kwd ='', exc =[ '__doc__'] ):
+def ddir( obj =None, kwd ='', exc =[ '__doc__'] ):
   objDefault ='__main__' not in dir() and obj is None
 
   if objDefault :
@@ -49,15 +49,3 @@ def dd( obj =None, kwd ='', exc =[ '__doc__'] ):
   if objDefault :
     del __main__
 
-def ddd( obj =None, kwd ='', exc =[ '__doc__'] ):
-  objDefault ='__main__' not in dir() and obj is None
-
-  if objDefault :
-    import __main__
-    obj =__main__
-
-  
-
-
-  if objDefault :
-    del __main__
