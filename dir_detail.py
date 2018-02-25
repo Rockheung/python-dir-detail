@@ -16,9 +16,9 @@ def d( dictStyle =eval( 'globals()'), kwd ='', exc =[ '__doc__'] ):
   for i in dictKeys:
     if i not in exc:
       try :
-        print('├ {:^{w}}│ {}'.format( i, dictStyle[i], w =maxLen ) )
+        print('|- {:^{w}}| {}'.format( i, dictStyle[i], w =maxLen ) )
       except TypeError:
-        print('├ {}│ {}'.format( i, dictStyle[i] ) )
+        print('|- {}| {}'.format( i, dictStyle[i] ) )
 
 
 
@@ -38,7 +38,7 @@ def ddir( obj =None, kwd ='', exc =[ '__doc__'] ):
         print( mI)
         d(mExplain)
       else :
-        print( '{:^{w}}│ {}'.format( mI, mExplain, w =maxLen ) )
+        print( '{:^{w}}| {}'.format( mI, mExplain, w =maxLen ) )
 
     except AttributeError:
       print( '{:^{w}}'.format( mI, w =maxLen ) )
